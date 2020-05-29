@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Kinematics Simulation</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+  <!--MathJax allows equation writing in HTML-->
+  <script src="javascript.js"></script>
+</head>
+<body>
+  <p id="title">2D Projectile Motion and General Kinematics Tool</p>
+  <div id="tabs">
+    <button id="calculator" class="tabButtons" onclick="switchModes('calc');">Calculator</button>
+    <button id="simulation" class="tabButtons" onclick="switchModes('sim');">Simulation</button>
+  </div>
+  <div id="underline"></div>
+  <div id="calcBox">
+    <div id="calcInputBox">
+      <div class="calcInputs">
+        <p>Acceleration:</p>
+        <input type="text" id="calcInput-a">m/s²
+      </div>
+      <div class="calcInputs">
+        <p>Velocity Initial:</p>
+        <input type="text" id="calcInput-vi">m/s
+      </div>
+      <div class="calcInputs">
+        <p>Velocity Final:</p>
+        <input type="text" id="calcInput-vf">m/s
+      </div>
+      <div class="calcInputs">
+        <p>Displacement:</p>
+        <input type="text" id="calcInput-d">m
+      </div>
+      <div class="calcInputs">
+        <p>Time:</p>
+        <input type="text" id="calcInput-t">s
+      </div>
+    </div>
+    <div id="calcSelectBox">
+      <div class="calcSelects">
+        <p>Solve For:</p>
+        <select id="calcSolveFor">
+          <option>Acceleration</option>
+          <option>Velocity Initial</option>
+          <option>Velocity Final</option>
+          <option>Displacement</option>
+          <option>Time</option>
+        </select>
+      </div>
+      <div class="calcSelects">
+        <button id="calcSolve" onclick="calcSolve();">Solve!</button>
+      </div>
+      <div class="calcSelects">
+        <p>Exclude:</p>
+        <select id="calcExclude">
+          <option>Acceleration</option>
+          <option>Velocity Initial</option>
+          <option>Velocity Final</option>
+          <option>Displacement</option>
+          <option>Time</option>
+        </select>
+      </div>
+    </div>
+    <div id="calcResultBox">
+      <div id="calcText"></div>
+    </div>
+    <div class="subhead">The Equations</div>
+    <p id="equationExplanation">
+      This calculator uses the five essential kinematics 
+      equations used to solve for acceleration, initial and final
+      velocity, displacement, and time. By rearranging the following
+      equations, you can find any of these variables using only three
+      of them. In a 2D projectile context, the y-component has
+      non-uniform motion with a non-zero acceleration while the
+      x-component has uniform velocity and thus a single, simple equation.
+      These equations define all the mathematics used here.
+    </p>
+    <div id="equationList">
+      <div class="equations">\[\Delta d = {v_i + v_f \over 2}~\Delta t\]</div>
+      <div class="equations">\[\Delta d = v_i~\Delta t+{1 \over 2}a~\Delta t^2\]</div>
+      <div class="equations">\[\Delta d = v_f~\Delta t-{1 \over 2}a~\Delta t^2\]</div>
+      <div class="equations">\[{v_f}^2 = {v_i}^2+2a~\Delta d\]</div>
+      <div class="equations">\[a = {v_f - v_i \over {\Delta t}}\]</div>
+    </div>
+  </div>
+  <div id="simBox">
+    <div id="simFlex">
+      <div id="canvasBox">
+        <canvas id="canvas" width="560px" height="560px"></canvas>
+        <div id="canvasStep">
+          <button id="stepBack" onclick="stepBack();">Back</button>
+          <input type="number" placeholder="Step Increment (s)" id="stepInterval">
+          <button id="stepForward" onclick="stepForward();">Forward</button>
+        </div>
+      </div>
+      <div id="simInputBox">
+        <div class="simInputs">
+          <p>Time:</p>
+          <input type="text" id="simInput-t" class="simChange">s
+        </div>
+        <div class="simInputs">
+          <p>Y-Acceleration:</p>
+          <input type="text" id="simInput-a" class="simChange" value="-10">m/s²
+        </div>
+        <div class="simInputs">
+          <p>Y-Displacement:</p>
+          <input type="text" id="simInput-dy" class="simChange">m
+        </div>
+        <div class="simInputs">
+          <p>X-Displacement:</p>
+          <input type="text" id="simInput-dx" class="simChange">m
+        </div>
+        <div class="simInputs">
+          <p>Y-Velocity Final:</p>
+          <input type="text" id="simInput-vf" class="simChange">m/s
+        </div>
+        <div class="simInputs" id="velocitySelect">
+          <p>Velocity Input Type</p><br>
+          <div class="radios">
+            <span class="radioTitle">Scalar</span><input type="radio" name="velocity" id="velocityScalar" checked onclick="switchVelocity('scalar');">
+          </div>
+          <div class="radios">
+            <span class="radioTitle">Vector</span><input type="radio" name="velocity" id="velocityVector" onclick="switchVelocity('vector');">
+          </div>
+        </div>
+        <div class="simInputs scalar" style="display: block">
+          <p>Y-Velocity Initial:</p>
+          <input type="text" id="simInput-vi" class="simChange">m/s
+        </div>
+        <div class="simInputs scalar" style="display: block">
+          <p>X-Velocity Constant:</p>
+          <input type="text" id="simInput-vx" class="simChange">m/s
+        </div>
+        <div class="simInputs vector">
+          <p>Velocity Magnitude:</p>
+          <input type="text" id="simInput-vm" class="simChange">m/s
+        </div>
+        <div class="simInputs vector">
+          <p>Angle Above Horizontal:</p>
+          <input type="text" id="simInput-va" class="simChange" value="0">&deg;
+        </div>
+        <button id="simSolve()" onclick="simSolve();">Solve and Simulate!</button>
+      </div>
+    </div>
+  </div>
+  <!-- <div id="positionInputs">
+    <span>X-Start: </span><input type="text" id="xstart" placeholder="0<x<640">
+    <span>Y-Start: </span><input type="text" id="ystart" placeholder="0<y<640">
+    <button onclick="ball.setStartPosition();">Set Start Position</button>
+  </div>
+  <canvas id="canvas" width="640px" height="640px"></canvas>
+  <div id="stepInputs">
+    <button id="stepback" onclick="stepBack();">Step Back</button>
+    <span>Step Interval: </span><input type="text" id="stepInterval" onchange="if(this.value.isNumber()) stepInterval = Number(this.value); else { alert('Invalid input for Step Interval.'); this.value = ''; }">
+    <button id="stepforward" onclick="stepForward();">Step Forward</button>
+  </div>
+  <div id="kinematicsInputs">
+    <span>Y-Acceleration: </span><input type="text" id="ay" onchange="if(this.value.isNumber()) ay = Number(this.value); else { alert('Invalid input for Y-Acceleration.'); this.value = ''; }">
+    <span>Y-Displacement: </span><input type="text" id="dy" onchange="if(this.value.isNumber()) dy = Number(this.value); else { alert('Invalid input for Y-Displacement.'); this.value = ''; }">
+    <span>Time: </span><input type="text" id="t" onchange="if(this.value.isNumber()) t = Number(this.value); else { alert('Invalid input for Time.'); this.value = ''; }">
+    <span>Initial Y-Velocity: </span><input type="text" id="vi" onchange="if(this.value.isNumber()) vi = Number(this.value); else { alert('Invalid input for Initial Y-Velocity.'); this.value = ''; }">
+    <span>Final Y-Velocity: </span><input type="text" id="vf" onchange="if(this.value.isNumber()) vf = Number(this.value); else { alert('Invalid input for Final Y-Velocity.'); this.value = ''; }">
+    <span>Solve For: </span>
+    <select id="solveFor">
+      <option>Y-Acceleration</option>
+      <option>Y-Displacement</option>
+      <option>Time</option>
+      <option>Initial Y-Velocity</option>
+      <option>Final Y-Velocity</option>
+    </select>
+    <span>Exclude: </span>
+    <select id="exclude">
+      <option>Y-Acceleration</option>
+      <option>Y-Displacement</option>
+      <option>Time</option>
+      <option>Initial Y-Velocity</option>
+      <option>Final Y-Velocity</option>
+    </select>
+    <button onclick="solveProblem();" id="solve">Solve</button>
+  </div> -->
+</body>
+</html>

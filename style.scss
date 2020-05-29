@@ -1,0 +1,282 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600&display=swap');
+$font-stack: 'Poppins', sans-serif;
+$primary-color: #3094c2;
+$secondary-color: #8aceee;
+
+* {
+    box-sizing: none;
+    margin: 0;
+    padding: 0;
+    font-family: $font-stack;
+}
+
+#title {
+    font-size: 30px;
+    border-bottom: 4px solid $primary-color;
+    color: $primary-color;
+    margin: 12px 64px;
+    padding-bottom: 8px;
+    text-align: center;
+    font-weight: 500;
+    margin-bottom: 48px;
+}
+
+#underline {
+    width: 100%;
+    height: 12px;
+    background-image: linear-gradient($primary-color, $primary-color, $secondary-color, white);
+    margin-bottom: 32px;
+}
+
+.subhead {
+    font-size: 24px;
+    font-weight: 300;
+    color: $primary-color;
+    border-bottom: 2px solid $primary-color;
+    text-align: center;
+    margin-top: 80px;
+    padding-bottom: 4;
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#tabs {
+    display: flex;
+    flex-direction: none;
+    width: 100%;
+    
+    .tabButtons {
+        font-family: $font-stack;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: $primary-color;
+        color: white;
+        font-size: 24px;
+        font-weight: 300;
+        width: 320px;
+        border: 0;
+        border-radius: 20px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        padding: 8px;
+        padding-bottom: 4px;
+        transition: color 0.5s, background-color 0.5s;
+
+        &#simulation {
+            color: $primary-color;
+            background-color: white;
+            font-weight: 500;
+        }
+    }
+}
+
+#calcBox {
+    #calcInputBox, #calcSelectBox {
+        display: flex;
+        flex-direction: none;
+        width: 100%;
+
+        .calcInputs, .calcSelects {
+            width: 100%;
+            width: 100%;
+            color: $primary-color;
+            font-size: 20px;
+            font-weight: 500;
+            text-align: center;
+
+            p {
+                margin-bottom: 4px;
+            }
+
+            input, select {
+                height: 24px;
+                font-size: 20px;
+                width: 80px;
+                border-radius: 8px;
+                padding: 4px;
+                border: 1.5px solid $primary-color;
+                margin-right: 10px;
+                color: $primary-color;
+                margin-bottom: 32px;
+            }
+
+            select {
+                width: 360px;
+                height: 48px;
+                font-size: 20px;
+            }
+
+            button {
+                width: 180px;
+                height: 48px;
+                border-radius: 12px;
+                border: 0;
+                background-color: $primary-color;
+                color: white;
+                font-size: 20px;
+                margin-top: 34px;
+            }
+        }
+    }
+
+    #calcResultBox {
+        width: 90%;
+        height: 160px;
+        border-radius: 24px;
+        background-color: $secondary-color;
+        margin: 40px 5%;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        #calcText {
+            width: 90%;
+            color: white;
+            font-size: 20px;
+        }
+    }
+
+    #equationExplanation {
+        margin-top: 20px;
+        font-size: 18px;
+        line-height: 28px;
+        width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        color: $primary-color;
+        font-weight: 400;
+    }
+
+    #equationList {
+        height: 400px;
+        color: $primary-color;
+        text-shadow: 0px 0px 16px $secondary-color;
+    }
+}
+
+#simBox {
+    display: none;
+
+    #simFlex {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        justify-content: center;
+
+        #canvasBox {
+            canvas {
+                width: 560px;
+                height: 560px;
+                border: 1.5px solid $primary-color;
+                margin: 0px 40px;
+            }
+
+            #canvasStep {
+                display: none;
+                align-items: center;
+                width: 100%;
+                justify-content: center;
+
+                button {
+                    width: 120px;
+                    height: 44px;
+                    font-size: 20px;
+                    background-color: $primary-color;
+                    color: white;
+                    border: 0;
+                    border-radius: 8px;
+                    margin: 0px 24px;
+                }
+    
+                input {
+                    height: 24px;
+                    font-size: 20px;
+                    width: 200px;
+                    border-radius: 8px;
+                    padding: 4px;
+                    border: 1.5px solid $primary-color;
+                    margin-right: 10px;
+                    color: $primary-color;
+                }
+            }            
+        }
+
+        #simInputBox {
+            display: flex;
+            flex-direction: column;
+            margin: 0px 40px;
+            width: 440px;
+
+            .simInputs {
+                width: 100%;
+                color: $primary-color;
+                font-size: 20px;
+                font-weight: 500;
+                text-align: left;
+
+                &.vector {
+                    display: none;
+                }
+    
+                p {
+                    margin-bottom: 4px;
+                    display: inline-block;
+                    width: 280px;
+                }
+    
+                input {
+                    height: 24px;
+                    font-size: 20px;
+                    width: 80px;
+                    border-radius: 8px;
+                    padding: 4px;
+                    border: 1.5px solid $primary-color;
+                    margin-right: 10px;
+                    color: $primary-color;
+                    margin-bottom: 32px;
+                }
+
+                &#velocitySelect {
+                    width: 400px;
+                    height: 72px;
+                    background-color: $secondary-color;
+                    padding: 8px;
+                    text-align: center;
+                    align-items: center;
+                    color:white;
+                    margin-bottom: 32px;
+                    border: 0;
+                    border-radius: 16px;
+
+
+                    .radios {
+                        display: inline-block;
+                        .radioTitle {
+                            display: inline-block;
+                            width: 80px;
+                        }
+                        input {
+                            margin: 0;
+                            vertical-align: middle;
+                            border: 0;
+                        }
+                    }
+                }
+            }
+
+            button {
+                width: 400px;
+                height: 48px;
+                border-radius: 12px;
+                border: 0;
+                background-color: $primary-color;
+                color: white;
+                font-size: 20px;
+                margin-top: 34px;
+            }
+        }
+    }
+}
