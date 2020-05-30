@@ -1,4 +1,4 @@
-# KinematicsSimulation
+# Kinematics Simulation
 Hi! Here's a user manual for this basic kinematics calculator and 2D projectile motion simulator I created for my grade 11 Physics ISP. This took quite a while to build and test, and while I have tested the system extensively, it may still be possible to trigger certain errors in very particular situations. Nevertheless, for students and teachers, this is a very valuable and engaging tool that simplifies and logically presents the potentially complicated concepts of kinematics and projectile situations and effectively applies the mathematics present in this unit.
 
 ### Calculator
