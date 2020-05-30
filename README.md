@@ -2,7 +2,7 @@
 Hi! Here's a user manual for this basic kinematics calculator and 2D projectile motion simulator I created for my grade 11 Physics ISP. This took quite a while to build and test, and while I have tested the system extensively, it may still be possible to trigger certain errors in very particular situations. Nevertheless, for students and teachers, this is a very valuable and engaging tool that simplifies and logically presents the potentially complicated concepts of kinematics and projectile situations and effectively applies the mathematics present in this unit.
 
 ### Calculator
-In a kinematics situation with non-uniform motion and constant acceleration, there are five variables to consider when solving - acceleration, initial velocity, final (or current) velocity, displacement, and time. These five variables can describe an object's state at any point in time.
+In a kinematics situation with non-uniform motion and constant acceleration, there are five variables to consider when solving - acceleration, initial velocity, final (or current) velocity, displacement, and time. These five variables collectively describe any mvoing object.
 
 As the calculator page shows, there are five basic kinematics equations used to solve for these variables, and since each one excludes a certain one of these five variables, you only ever need three variables and some basic algebra to completely solve a kinematics problem.
 
