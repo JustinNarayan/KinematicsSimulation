@@ -7,7 +7,6 @@ const ANIMATION_INTERVAL = 20;
 let solve = [];
 let vals = [];
 let stepInterval = 0;
-let simulated = false;
 
 let ball;
 let canvas;
@@ -20,6 +19,13 @@ let rectTop = 0;
 let rectRight;
 let rectBottom;
 
+//Define event listening to init things when the DOM loads
+document.addEventListener('DOMContentLoaded', () => {
+	loadCanvas();
+	initEquations();
+});
+
+//Define utility class
 class Util {
 	static getId(text) {
 		return document.getElementById(text);
@@ -104,7 +110,7 @@ class Util {
 	}
 }
 
-
+//Switch between simulator and calculator
 function switchModes(mode) {
 	if(mode == "calc") {
 		Util.getId('calcBox').style.display = "block";
@@ -127,7 +133,9 @@ function switchModes(mode) {
 	}
 }
 
+//In the simulator, siwtch between the combined and separate modes
 function switchVelocity(mode) {
+	//Scalar means seaprate, vector means combined even though all velocities are vectors
 	let scalar = Util.getClass('scalar');
 	for(i of [0,1]) scalar[i].style.display = 'none';
 	let vector = Util.getClass('vector');
@@ -139,12 +147,7 @@ function switchVelocity(mode) {
 //Easy method to check valid inputs
 String.prototype.isNumber = function(){return parseFloat(this).toString() === this.toString();}
 
-
-document.addEventListener('DOMContentLoaded', () => {
-	loadCanvas();
-	initEquations();
-});
-
+//Load the canvas and init certain variables
 function loadCanvas() {
 	canvas = document.getElementById("canvas");   // used to get the canvas to draw on it
 	width = canvas.width;         // declares a variable called width and assigns it the width of the canvas
@@ -192,14 +195,7 @@ function drawText() {
 	let lineSize = 16;
 	ctx.fillStyle = "black";
 	ctx.font = "12px Arial";
-	ctx.fillText(`Canvas Dimensions: 560 units by 560 units`, xDraw, yDraw);
-	// ctx.fillText(`Y-Displacement: ${dy}m`, xDraw, yDraw);
-	// ctx.fillText(`Y-Acceleration: ${ay}m/s²`, xDraw, yDraw + lineSize);
-	// ctx.fillText(`Initial Y-Velocity: ${vi}m/s`, xDraw, yDraw + 2*lineSize);
-	// ctx.fillText(`Current Y-Velocity: ${vf}m/s`, xDraw, yDraw + 3*lineSize);
-	// ctx.fillText(`X-Displacement: ${dx}m`, xDraw, yDraw + 5*lineSize); //Extra line
-	// ctx.fillText(`X-Velocity: ${vx}m/s`, xDraw, yDraw + 6*lineSize);
-	// ctx.fillText(`Time Elapsed: ${t}s`, xDraw, yDraw + 8*lineSize); //Extra line
+	ctx.fillText(`Canvas Dimensions: 560 m by 560 m`, xDraw, yDraw);
 }
 
 //Initialize all equations
@@ -290,7 +286,7 @@ function quadraticFormula(a,b,c) {
 	return ret;
 }
 
-
+//Solve in the calculator
 function calcSolve() {
 	let solveFor, exclude;
 	solveFor = Util.getId('calcSolveFor').value;
@@ -373,7 +369,8 @@ function calcSolve() {
 			}
 		}
 	} catch(err) {
-		alert("ERROR");
+		//No error that I know of should cause this, but better to be safe
+		alert("Error - please report to program creator");
 		console.log(err);
 	}
 	let string = `With <b>${Util.shortToLong(arg1[1])} = ${(arg1[0])} ${Util.getUnits(arg1[1])}</b>, 
@@ -384,8 +381,8 @@ function calcSolve() {
 	Util.setCalc(string);
 }
 
+//Deal with updating a single value of all the inputs in the simulator
 function updateValues(item) {
-	//Deal with basic updating
 	let index = item.id.substring(item.id.indexOf("-")+1);
 	if(!item.value.isNumber() && item.value != "") {
 		alert("Please input a valid number value or leave this field entirely blank.");
@@ -409,6 +406,8 @@ function updateValues(item) {
 		}
 	}
 }
+
+//Simulation Solve Function
 function simSolve() {
 	let temp = ["t", "a", "dy", "vf", "vi"];
 	temp.forEach(val => updateValues(Util.getId("simInput-"+val)));
@@ -490,6 +489,7 @@ function simSolve() {
 		return false;
 	}
 
+	//Represent new values
 	Util.getId('simInput-a').value = vals["a"];
 	Util.getId('simInput-vi').value = vals["vi"];
 	Util.getId('simInput-vf').value = vals["vf"];
@@ -498,12 +498,13 @@ function simSolve() {
 	Util.getId('simInput-vx').value = vals["vx"];
 	Util.getId('simInput-dx').value = vals["dx"];
 
-	simulated = true;
 	Util.getId('canvasStep').style.display = "flex";
+	Util.getId('simSolve').style.display = "none";
 	ball.move();
 	return true;
 }
 
+//Define simple function for use in solving variablesi n the simulation
 function manualSolve(solveFor, exclude) {
 	let arg1 = [null, ""];
 	let arg2 = [null, ""];
@@ -533,9 +534,7 @@ function manualSolve(solveFor, exclude) {
 }
 
 
-
-
-
+//Define the ball class
 class Ball {
 	constructor(x,y) {
 		this.x = x;
@@ -545,20 +544,22 @@ class Ball {
 		this.colour = "blue";
 	}
 
-
 	move() {
 		this.x = this.xstart + vals["dx"];
 		this.y = this.ystart - vals["dy"]; //In canvas space, negative is up, so we invert that
 	}
 }
 
+
+//Step Functions
 function stepBack() { 
 	let int = parseFloat(Util.getId('stepInterval').value);
 	if(Number.isNaN(int) || int=='') {
 		alert("Please input a valid step increment value.");
 		return false;
 	}
-	//Do initial solve
+
+	//Do initial solve to determine base state
 	Util.getId('simInput-dy').value = "";
 	Util.getId('simInput-dx').value = "";
 	Util.getId('simInput-vf').value = "";
@@ -573,13 +574,15 @@ function stepBack() {
 
 	simSolve();
 }
+
 function stepForward() { 
 	let int = parseFloat(Util.getId('stepInterval').value);
 	if(Number.isNaN(int) || int=='') {
 		alert("Please input a valid step increment value.");
 		return false;
 	}
-	//Do initial solve
+
+	//Do initial solve  to determine base state
 	Util.getId('simInput-dy').value = "";
 	Util.getId('simInput-dx').value = "";
 	Util.getId('simInput-vf').value = "";

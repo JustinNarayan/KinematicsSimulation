@@ -230,12 +230,14 @@
 }
 #simBox #simFlex #simInputBox .simInputs#velocitySelect .radios .radioTitle {
   display: inline-block;
-  width: 80px;
+  width: 120px;
+  text-align: right;
 }
 #simBox #simFlex #simInputBox .simInputs#velocitySelect .radios input {
   margin: 0;
   vertical-align: middle;
   border: 0;
+  width: 40px;
 }
 #simBox #simFlex #simInputBox button {
   width: 400px;

@@ -256,12 +256,14 @@ $secondary-color: #8aceee;
                         display: inline-block;
                         .radioTitle {
                             display: inline-block;
-                            width: 80px;
+                            width: 120px;
+                            text-align: right;
                         }
                         input {
                             margin: 0;
                             vertical-align: middle;
                             border: 0;
+                            width: 40px;
                         }
                     }
                 }

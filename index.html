@@ -123,10 +123,10 @@
         <div class="simInputs" id="velocitySelect">
           <p>Velocity Input Type</p><br>
           <div class="radios">
-            <span class="radioTitle">Scalar</span><input type="radio" name="velocity" id="velocityScalar" checked onclick="switchVelocity('scalar');">
+            <span class="radioTitle">Separate</span><input type="radio" name="velocity" id="velocityScalar" checked onclick="switchVelocity('scalar');">
           </div>
           <div class="radios">
-            <span class="radioTitle">Vector</span><input type="radio" name="velocity" id="velocityVector" onclick="switchVelocity('vector');">
+            <span class="radioTitle">Combined</span><input type="radio" name="velocity" id="velocityVector" onclick="switchVelocity('vector');">
           </div>
         </div>
         <div class="simInputs scalar" style="display: block">
@@ -145,7 +145,7 @@
           <p>Angle Above Horizontal:</p>
           <input type="text" id="simInput-va" class="simChange" value="0">&deg;
         </div>
-        <button id="simSolve()" onclick="simSolve();">Solve and Simulate!</button>
+        <button id="simSolve" onclick="simSolve();">Solve and Simulate!</button>
       </div>
     </div>
   </div>
